@@ -1,14 +1,28 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
+
+import SplashScreen from "./pages/Splash/SplashScreen.tsx";
+import Home from "./pages/Home/Home.tsx";
+import Login from "./pages/Login/Login.tsx";
 
 function App() {
   return (
     <>
-      <div>
-        <div className="text-3xl font-bold text-green-500">
-          ✅ Tailwind działa!
-        </div>
-      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={<SplashScreen />}
+        />
+        <Route
+          path="/home"
+          element={<Home />}
+        />
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+      </Routes>
     </>
   );
 }
