@@ -1,15 +1,20 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
-import "./App.css";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
+import "./App.css";
 import SplashScreen from "./pages/Splash/SplashScreen.tsx";
 import Home from "./pages/Home/Home.tsx";
 import Login from "./pages/Login/Login.tsx";
 
 function App() {
+  const location = useLocation();
   return (
-    <>
-      <Routes>
+    <AnimatePresence mode="wait">
+      <Routes
+        location={location}
+        key={location.pathname}
+      >
         <Route
           path="/"
           element={<SplashScreen />}
@@ -23,7 +28,7 @@ function App() {
           element={<Login />}
         />
       </Routes>
-    </>
+    </AnimatePresence>
   );
 }
 
