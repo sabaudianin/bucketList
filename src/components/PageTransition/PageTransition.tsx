@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 
 interface PageTransitionProps {
@@ -6,8 +7,14 @@ interface PageTransitionProps {
 
 export default function PageTransition({ children }: PageTransitionProps) {
   return (
-    <div className="animate-fade-in min-h-screen bg-red-500 text-blue-500">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -30 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      className="min-h-screen"
+    >
       {children}
-    </div>
+    </motion.div>
   );
 }
