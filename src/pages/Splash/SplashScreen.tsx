@@ -7,7 +7,7 @@ export default function SplashScreen() {
 
   return (
     <PageTransition>
-      <div className="p-8 text-center animate-spin">
+      <div className="p-8 text-center animate-fade-in">
         <h1 className="text-3xl font-bold">
           🪣 Witaj w aplikacji Bucket List!📋
         </h1>
