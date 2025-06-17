@@ -12,7 +12,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -30 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
-      className="min-h-screen"
+      className="w-screen"
     >
       {children}
     </motion.div>
