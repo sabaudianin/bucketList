@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <PageTransition>
       <div className="p-16 bg-yellow-300 ">
-        <h1 className="text-red-500">🏠 Strona Główna</h1>
+        <h1 className="">🏠 Strona Główna</h1>
         <p>Witaj w aplikacji Bucket List!💀</p>
         <p>
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis,

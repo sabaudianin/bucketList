@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -9,6 +10,9 @@
   /* color: rgba(255, 255, 255, 0.87); */
   /* background-color: #242424; */
 
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
