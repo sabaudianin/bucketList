@@ -9,6 +9,7 @@ import { MainLayout } from "./components/layout/MainLayout/MainLayout.tsx";
 
 function App() {
   const location = useLocation();
+  console.log(import.meta.env.VITE_SUPABASE_URL);
   return (
     <MainLayout>
       <AnimatePresence mode="wait">
