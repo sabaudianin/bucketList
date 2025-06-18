@@ -2,18 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <script>
-      (() => {
-        const theme = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        ).matches;
-        document.documentElement.classList.toggle(
-          "dark",
-          theme === "dark" || (!theme && prefersDark)
-        );
-      })();
-    </script>
+
     <link
       rel="icon"
       type="image/svg+xml"
