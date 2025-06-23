@@ -2,7 +2,7 @@ import { HomeButton } from "../../HomeButton/HomeButton";
 import { ThemeToggle } from "../../ThemeToggle/ThemeToggle";
 export const Navbar = () => {
   return (
-    <header className="p-4 shadow sticky top-0 z-50 flex items-center justify-between">
+    <header className="p-4 shadow sticky top-0 z-50 flex items-center justify-between  bg-gradient-to-br from-purple-500 to-pink-500">
       <div className=" text-2xl">
         <HomeButton />
       </div>
