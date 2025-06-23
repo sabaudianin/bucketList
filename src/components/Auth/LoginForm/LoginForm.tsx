@@ -1,8 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "../../../lib/validations/authSchema/authSchema";
-import type { LoginFormData } from "../../../lib/validations/authSchema/authSchema";
+import { loginSchema } from "../../../lib/validations/loginSchema/authSchema";
+import type { LoginFormData } from "../../../lib/validations/loginSchema/authSchema";
 
 export const LoginForm = () => {
   const {
@@ -21,7 +21,7 @@ export const LoginForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-sm mx-auto p-4 bg-white dark:bg-gray-800 rounded shadow space-y-4"
+      className="max-w-sm mx-auto p-4  dark:bg-gray-800 rounded shadow space-y-4 border-2 border-gray-600"
     >
       <div>
         <label className="block mb-1 text-sm font-medium">Email</label>
@@ -31,7 +31,9 @@ export const LoginForm = () => {
           className="w-full p-2 border rounded"
         />
         {errors.email && (
-          <p className="text-sm text-red-500">{errors.email.message}</p>
+          <p className="text-sm text-red-400 font-semibold">
+            {errors.email.message}
+          </p>
         )}
       </div>
 
@@ -43,16 +45,18 @@ export const LoginForm = () => {
           className="w-full p-2 border rounded"
         />
         {errors.password && (
-          <p className="text-sm text-red-500">{errors.password.message}</p>
+          <p className="text-sm text-red-500 font-semibold">
+            {errors.password.message}
+          </p>
         )}
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+        className="w-full py-2 bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded hover:bg-blue-700 disabled:opacity-50"
       >
-        Zaloguj się
+        Log In
       </button>
     </form>
   );
