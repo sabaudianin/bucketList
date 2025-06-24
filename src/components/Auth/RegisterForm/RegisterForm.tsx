@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "../../../lib/validations/registerSchema/registerSchema";
 import type { RegisterFormData } from "../../../lib/validations/registerSchema/registerSchema";
+import { InputButton } from "../../ui/Button/InputButton";
 
 export const RegisterForm = () => {
   const {
@@ -19,8 +20,9 @@ export const RegisterForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-sm mx-auto p-4 bg-white dark:bg-gray-800 rounded shadow space-y-4"
+      className="max-w-xl mx-auto p-4 bg-gray-200 dark:bg-gray-800 rounded shadow space-y-4  border-2 border-gray-600"
     >
+      <h2 className="text-3xl font-bold mb-2">Register</h2>
       <div>
         <label className="block mb-1 text-sm font-medium">Name</label>
         <input
@@ -43,7 +45,6 @@ export const RegisterForm = () => {
           <p className="text-sm text-red-500">{errors.email.message}</p>
         )}
       </div>
-
       <div>
         <label className="block mb-1 text-sm font-medium">Password</label>
         <input
@@ -55,13 +56,13 @@ export const RegisterForm = () => {
           <p className="text-sm text-red-500">{errors.password.message}</p>
         )}
       </div>
-      <button
+      <InputButton
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+        className="w-full py-2  bg-gradient-to-br from-green-900 to-green-500 bg-green-900 text-white rounded hover:bg-green-700 disabled:opacity-50"
       >
         Register
-      </button>
+      </InputButton>
     </form>
   );
 };

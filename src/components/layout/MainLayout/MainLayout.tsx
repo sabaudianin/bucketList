@@ -1,11 +1,22 @@
 import type { ReactNode } from "react";
 import { Navbar } from "../Navbar/Navbar";
 import { Footer } from "../Footer/Footer";
+import { Container } from "../Container/Container";
 
-export const MainLayout = ({ children }: { children: ReactNode }) => (
-  <div className="flex flex-col h-screen transition-colors duration-300 bg-gray-300 text-black dark:bg-gray-800 dark:text-white">
-    <Navbar />
-    <main className="flex-1 overflow-y-auto">{children}</main>
-    <Footer />
-  </div>
-);
+export const MainLayout = ({ children }: { children: ReactNode }) => {
+  return (
+    <div className="flex flex-col min-h-screen bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-300">
+      <header className="sticky top-0 z-50 bg-inherit shadow">
+        <Navbar />
+      </header>
+
+      <main className="flex-1">
+        <Container className="">{children}</Container>
+      </main>
+
+      <footer className="">
+        <Footer />
+      </footer>
+    </div>
+  );
+};

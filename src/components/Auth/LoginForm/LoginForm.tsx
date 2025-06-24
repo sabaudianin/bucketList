@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../../lib/validations/loginSchema/authSchema";
 import type { LoginFormData } from "../../../lib/validations/loginSchema/authSchema";
+import { InputButton } from "../../ui/Button/InputButton";
 
 export const LoginForm = () => {
   const {
@@ -21,8 +22,9 @@ export const LoginForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-sm mx-auto p-4  dark:bg-gray-800 rounded shadow space-y-4 border-2 border-gray-600"
+      className="max-w-xl mx-auto p-4 bg-gray-200 dark:bg-gray-800 rounded shadow space-y-4 border-2 border-gray-600"
     >
+      <h2 className="text-3xl font-bold mb-2">Log in 🔐</h2>
       <div>
         <label className="block mb-1 text-sm font-medium">Email</label>
         <input
@@ -51,13 +53,13 @@ export const LoginForm = () => {
         )}
       </div>
 
-      <button
+      <InputButton
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-2 bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+        className="w-full py-2 bg-gradient-to-br from-orange-500 to-pink-500 text-white rounded hover:bg-blue-700 disabled:opacity-50"
       >
         Log In
-      </button>
+      </InputButton>
     </form>
   );
 };
