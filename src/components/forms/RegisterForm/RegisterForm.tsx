@@ -1,39 +1,33 @@
 import React from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema } from "../../../lib/validations/registerSchema/registerSchema";
-import type { RegisterFormData } from "../../../lib/validations/registerSchema/registerSchema";
 import { InputButton } from "../../ui/Button/InputButton";
+import { useRegister } from "../../../hooks/auth/useRegister/useRegister";
 
 export const RegisterForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema),
-  });
+    onSubmit,
+  } = useRegister();
 
-  const onSubmit = async (data: RegisterFormData) => {
-    console.log("Register", data);
-  };
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="max-w-xl mx-auto p-4 bg-gray-200 dark:bg-gray-800 rounded shadow space-y-4  border-2 border-gray-600"
     >
-      <h2 className="text-3xl font-bold mb-2">Register</h2>
+      <h2 className="text-3xl font-bold mb-2 text-center">Register</h2>
       <div>
         <label className="block mb-1 text-sm font-medium">Name</label>
         <input
           type="text"
           {...register("name")}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded "
         />
         {errors.name && (
           <p className="text-sm text-red-500">{errors.name.message}</p>
         )}
       </div>
+
       <div>
         <label className="block mb-1 text-sm font-medium">Email</label>
         <input
@@ -56,6 +50,7 @@ export const RegisterForm = () => {
           <p className="text-sm text-red-500">{errors.password.message}</p>
         )}
       </div>
+
       <InputButton
         type="submit"
         disabled={isSubmitting}
