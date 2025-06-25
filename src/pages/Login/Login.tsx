@@ -1,5 +1,5 @@
-import { LoginForm } from "../../components/Auth/LoginForm/LoginForm";
-import { RegisterForm } from "../../components/Auth/RegisterForm/RegisterForm";
+import { LoginForm } from "../../components/forms/LoginForm/LoginForm";
+import { RegisterForm } from "../../components/forms/RegisterForm/RegisterForm";
 import PageTransition from "../../components/PageTransition/PageTransition";
 
 export default function Login() {

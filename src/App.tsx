@@ -1,6 +1,8 @@
 import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import { Toaster } from "sonner";
+
 import "./App.css";
 import SplashScreen from "./pages/Splash/SplashScreen.tsx";
 import Home from "./pages/Home/Home.tsx";
@@ -12,6 +14,10 @@ function App() {
   console.log(import.meta.env.VITE_SUPABASE_URL);
   return (
     <MainLayout>
+      <Toaster
+        position="top-right"
+        richColors
+      />
       <AnimatePresence mode="wait">
         <Routes
           location={location}
