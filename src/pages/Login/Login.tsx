@@ -1,40 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { LoginForm } from "../../components/forms/LoginForm/LoginForm";
-import { RegisterForm } from "../../components/forms/RegisterForm/RegisterForm";
+import { Link } from "react-router-dom";
 import PageTransition from "../../components/PageTransition/PageTransition";
 
 export default function Login() {
-  const [isRegister, setIsRegister] = useState(true);
   return (
     <PageTransition>
-      <div className="p-4 max-w-xl flex flex-col justify-center items-center bg-gray-100 dark:bg-gray-900 text-black dark:text-white ">
-        {isRegister ? <LoginForm /> : <RegisterForm />}
-
+      <div className="w-full mx-auto p-2 max-w-xl flex flex-col justify-center bg-gray-100 dark:bg-gray-900 text-black dark:text-white ">
+        <LoginForm />
         <div className="text-center">
-          {isRegister ? (
-            <>
-              <p>Don't have account yet ??</p>
-              <button
-                onClick={() => {
-                  setIsRegister(false);
-                }}
-              >
-                Register
-              </button>
-            </>
-          ) : (
-            <>
-              <p>Already Have a account ??</p>
-
-              <button
-                onClick={() => {
-                  setIsRegister(true);
-                }}
-              >
-                Log In
-              </button>
-            </>
-          )}
+          <p>Don't have account yet ??</p>
+          <Link to="/registration">Register</Link>
         </div>
       </div>
     </PageTransition>
