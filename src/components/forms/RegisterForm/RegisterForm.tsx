@@ -13,7 +13,7 @@ export const RegisterForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-xl mx-auto p-4 bg-gray-200 dark:bg-gray-800 rounded shadow space-y-4  border-2 border-gray-600"
+      className="w-full max-w-xl mx-auto p-4 bg-gray-200 dark:bg-gray-800 rounded shadow space-y-4  border-2 border-gray-600"
     >
       <h2 className="text-3xl font-bold mb-2 text-center">Register</h2>
       <div>

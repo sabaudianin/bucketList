@@ -1,28 +1,20 @@
 import React from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "../../../lib/validations/loginSchema/authSchema";
-import type { LoginFormData } from "../../../lib/validations/loginSchema/authSchema";
+
 import { InputButton } from "../../ui/Button/InputButton";
+import { useLogin } from "../../../hooks/auth/useLogin/useLogin";
 
 export const LoginForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
-  });
-
-  const onSubmit = async (data: LoginFormData) => {
-    console.log("Logowanie:", data);
-    // supabase.auth.signInWithPassword(data)
-  };
+    onSubmit,
+  } = useLogin();
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-xl mx-auto p-4 bg-gray-200 dark:bg-gray-800 rounded shadow space-y-4 border-2 border-gray-600"
+      className="w-full max-w-xl mx-auto p-4 bg-gray-200 dark:bg-gray-800 rounded shadow space-y-4 border-2 border-gray-600"
     >
       <h2 className="text-3xl font-bold mb-2">Log in 🔐</h2>
       <div>

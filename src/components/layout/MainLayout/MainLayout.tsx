@@ -10,7 +10,7 @@ export const MainLayout = ({ children }: { children: ReactNode }) => {
         <Navbar />
       </header>
 
-      <main className="flex-1">
+      <main className="flex-1 flex justify-center items-center">
         <Container className="">{children}</Container>
       </main>
 
