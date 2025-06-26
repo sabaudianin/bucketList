@@ -1,13 +1,17 @@
+import React from "react";
 import { LoginForm } from "../../components/forms/LoginForm/LoginForm";
-import { RegisterForm } from "../../components/forms/RegisterForm/RegisterForm";
+import { Link } from "react-router-dom";
 import PageTransition from "../../components/PageTransition/PageTransition";
 
 export default function Login() {
   return (
     <PageTransition>
-      <div className="p-2 h-screen shadow-lg transition-colors duration-300 bg-gray-500 text-black dark:bg-gray-800 dark:text-white ">
+      <div className="w-full mx-auto p-2 max-w-xl flex flex-col justify-center bg-gray-100 dark:bg-gray-900 text-black dark:text-white ">
         <LoginForm />
-        <RegisterForm />
+        <div className="text-center">
+          <p>Don't have account yet ??</p>
+          <Link to="/registration">Register</Link>
+        </div>
       </div>
     </PageTransition>
   );

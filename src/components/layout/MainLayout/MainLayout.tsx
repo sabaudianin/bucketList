@@ -9,14 +9,12 @@ export const MainLayout = ({ children }: { children: ReactNode }) => {
       <header className="sticky top-0 z-50 bg-inherit shadow">
         <Navbar />
       </header>
-
-      <main className="flex-1">
+      <main className="flex-1 flex justify-center items-center">
         <Container className="">{children}</Container>
       </main>
-
       <footer className="">
         <Footer />
-      </footer>
+      </footer>{" "}
     </div>
   );
 };

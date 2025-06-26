@@ -7,16 +7,20 @@ import "./App.css";
 import SplashScreen from "./pages/Splash/SplashScreen.tsx";
 import Home from "./pages/Home/Home.tsx";
 import Login from "./pages/Login/Login.tsx";
+import { RegisterForm } from "./components/forms/RegisterForm/RegisterForm.tsx";
 import { MainLayout } from "./components/layout/MainLayout/MainLayout.tsx";
+import { useAuthSession } from "./hooks/auth/useAuthSession/useAuthSession.ts";
 
 function App() {
   const location = useLocation();
+  useAuthSession();
   console.log(import.meta.env.VITE_SUPABASE_URL);
   return (
     <MainLayout>
       <Toaster
-        position="top-right"
+        position="bottom-right"
         richColors
+        closeButton
       />
       <AnimatePresence mode="wait">
         <Routes
@@ -34,6 +38,10 @@ function App() {
           <Route
             path="/login"
             element={<Login />}
+          />
+          <Route
+            path="/registration"
+            element={<RegisterForm />}
           />
         </Routes>
       </AnimatePresence>
