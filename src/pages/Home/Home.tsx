@@ -3,7 +3,7 @@ import PageTransition from "../../components/PageTransition/PageTransition";
 export default function Home() {
   return (
     <PageTransition>
-      <div className="p-16 bg-yellow-300 ">
+      <div className="p-16  ">
         <h1 className="">🏠 Strona Główna</h1>
         <p>Witaj w aplikacji Bucket List!💀</p>
         <p>
