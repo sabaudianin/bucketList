@@ -6,6 +6,8 @@ export interface User {
 
 export interface UserState {
   user: User | null;
+  isLoading: boolean;
   setUser: (user: User | null) => void;
   clearUser: () => void;
+  setLoading: (loading: boolean) => void;
 }
