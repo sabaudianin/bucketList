@@ -3,13 +3,16 @@ import { supabase } from "../../../lib/supabaseClient";
 import { useUser } from "../../user/useUser/useUser";
 
 export const useAuthSession = () => {
-  const { setUser } = useUser();
+  const { setUser, clearUser, setLoading } = useUser();
 
   useEffect(() => {
-    const fetchSession = async () => {
+    const getSession = async () => {
+      setLoading(true);
       const { data, error } = await supabase.auth.getSession();
 
-      if (data.session?.user) {
+      if (error || !data.session) {
+        clearUser();
+      } else {
         const { id, email, user_metadata } = data.session.user;
 
         setUser({
@@ -18,11 +21,16 @@ export const useAuthSession = () => {
           name: user_metadata.name ?? "Unknow",
         });
       }
-
-      if (error) {
-        console.error("session error", error.message);
-      }
     };
-    fetchSession();
-  }, [setUser]);
+
+    getSession();
+
+    const { data: listener } = supabase.auth.onAuthStateChange(() => {
+      getSession();
+    });
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, [setUser, clearUser, setLoading]);
 };
