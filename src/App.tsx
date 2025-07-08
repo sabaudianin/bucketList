@@ -7,17 +7,23 @@ import "./App.css";
 import SplashScreen from "./pages/Splash/SplashScreen.tsx";
 import Home from "./pages/Home/Home.tsx";
 import Login from "./pages/Login/Login.tsx";
+import { PageLoader } from "./components/ui/PageLoader/PageLoader.tsx";
 import { RegisterForm } from "./components/forms/RegisterForm/RegisterForm.tsx";
 import { MainLayout } from "./components/layout/MainLayout/MainLayout.tsx";
 import { useAuthSession } from "./hooks/auth/useAuthSession/useAuthSession.ts";
 import { ProtectedRoute } from "./components/routes/ProtectedRoutes/ProtectedRoute.tsx";
 import { NotFound } from "./pages/NotFound/NotFound.tsx";
 import { GuestRoute } from "./components/routes/GuestRoute/GuestRoute.tsx";
+import { useUser } from "./hooks/user/useUser/useUser.ts";
 
 function App() {
   const location = useLocation();
   useAuthSession();
   console.log(import.meta.env.VITE_SUPABASE_URL);
+  const { isLoading } = useUser();
+
+  if (isLoading) return <PageLoader />;
+
   return (
     <MainLayout>
       <Toaster
