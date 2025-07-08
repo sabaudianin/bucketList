@@ -21,6 +21,7 @@ export const useAuthSession = () => {
           name: user_metadata.name ?? "Unknow",
         });
       }
+      setLoading(false);
     };
 
     getSession();
