@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useBucketList } from "../../../hooks/useBucketList/useBucketList";
 
 export const BucketList = () => {
-  const { items, loading, addItem, toggleComplete } = useBucketList();
+  const { items, loading, addItem, toggleCompleted } = useBucketList();
   const [newItem, setNewItem] = useState("");
 
   const handleAdd = () => {
@@ -31,30 +31,33 @@ export const BucketList = () => {
           ➕ Add
         </button>
       </div>
-
-      <ul className="space-y-2">
-        {items.length === 0 ? (
-          <span>Add your first thing to do...</span>
-        ) : (
-          items.map((item) => (
-            <li
-              key={item.id}
-              className="flex justify-between items-center p-2 border rounded"
-            >
-              <span
-                className={item.completed ? "line-through text-gray-400" : ""}
+      {loading ? (
+        <p>Loading bucket list...</p>
+      ) : (
+        <ul className="space-y-2">
+          {items.length === 0 ? (
+            <span>Add your first thing to do...</span>
+          ) : (
+            items.map((item) => (
+              <li
+                key={item.id}
+                className="flex justify-between items-center p-2 "
               >
-                {item.title}
-              </span>
-              <input
-                type="checkbox"
-                checked={item.completed}
-                onChange={(e) => toggleComplete(item.id, e.target.checked)}
-              />
-            </li>
-          ))
-        )}
-      </ul>
+                <span
+                  className={item.completed ? "line-through text-gray-400" : ""}
+                >
+                  {item.title}
+                </span>
+                <input
+                  type="checkbox"
+                  checked={item.completed}
+                  onChange={(e) => toggleCompleted(item.id, e.target.checked)}
+                />
+              </li>
+            ))
+          )}
+        </ul>
+      )}
     </div>
   );
 };

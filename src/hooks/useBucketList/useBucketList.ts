@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { supabase } from "../../lib/supabaseClient";
 import { useUser } from "../user/useUser/useUser";
 
@@ -11,63 +12,75 @@ export type BucketItem = {
 
 export const useBucketList = () => {
   const { user } = useUser();
-  const [items, setItems] = useState<BucketItem[]>([]);
-  const [bucketLoading, setBucketLoading] = useState(false);
-  const [hasFetched, setHasFetched] = useState(false);
 
-  const fetchItems = async () => {
-    setBucketLoading(true);
-    try {
-      const { data, error } = await supabase
+  const queryClient = useQueryClient();
+
+  const fetchBucketList = async (userId: string) => {
+    const { data, error } = await supabase
+      .from("bucketList")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
+
+    if (error) throw new Error(error.message);
+    return data;
+  };
+
+  const {
+    data: items = [],
+    isPending,
+    isError,
+
+    refetch,
+  } = useQuery({
+    queryKey: ["bucketList", user?.id],
+    queryFn: () => fetchBucketList(user!.id),
+    enabled: !!user?.id,
+  });
+
+  const addItem = useMutation({
+    mutationFn: async (title: string) => {
+      const { error } = await supabase
         .from("bucketList")
-        .select("*")
-        .eq("user_id", user?.id)
-        .order("created_at", { ascending: false });
+        .insert([{ title, user_id: user?.id }]);
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["bucketList", user?.id] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-      if (!error && data) {
-        setItems(data);
-      } else {
-        console.error("❌ Supabase error:", error);
-      }
-    } catch (err) {
-      console.error("❌ Unexpected error:", err);
-    } finally {
-      setBucketLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (!user?.id || hasFetched) return;
-
-    console.log("🔁 Fetching user:", user.id);
-    fetchItems().then(() => setHasFetched(true));
-  }, [user?.id, hasFetched]);
-
-  const addItem = async (title: string) => {
-    const { error } = await supabase
-      .from("bucketList")
-      .insert([{ title, user_id: user?.id }]);
-
-    if (!error) {
-      fetchItems();
-    }
-  };
-
-  const toggleComplete = async (id: string, completed: boolean) => {
-    const { error } = await supabase
-      .from("bucketList")
-      .update({ completed })
-      .eq("id", id);
-
-    if (!error) {
-      fetchItems();
-    }
-  };
+  const toggleCompleted = useMutation({
+    mutationFn: async ({
+      id,
+      completed,
+    }: {
+      id: string;
+      completed: boolean;
+    }) => {
+      const { error } = await supabase
+        .from("bucketList")
+        .update({ completed })
+        .eq("id", id);
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["bucketList", user?.id] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   return {
     items,
-    loading: bucketLoading,
-    addItem,
-    toggleComplete,
+    loading: isPending,
+    error: isError,
+    refetch,
+    addItem: addItem.mutate,
+    toggleCompleted: toggleCompleted.mutate,
   };
 };

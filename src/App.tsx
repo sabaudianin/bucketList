@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { Toaster } from "sonner";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "./App.css";
 import SplashScreen from "./pages/Splash/SplashScreen.tsx";
@@ -21,54 +22,57 @@ function App() {
   useAuthSession();
   // console.log(import.meta.env.VITE_SUPABASE_URL);
   const { isLoading } = useUser();
+  const queryClient = new QueryClient();
 
   if (isLoading) return <PageLoader />;
 
   return (
-    <MainLayout>
-      <Toaster
-        position="bottom-right"
-        richColors
-        closeButton
-      />
-      <AnimatePresence mode="wait">
-        <Routes
-          location={location}
-          key={location.pathname}
-        >
-          <Route
-            path="/"
-            element={<SplashScreen />}
-          />
+    <QueryClientProvider client={queryClient}>
+      <MainLayout>
+        <Toaster
+          position="bottom-right"
+          richColors
+          closeButton
+        />
+        <AnimatePresence mode="wait">
+          <Routes
+            location={location}
+            key={location.pathname}
+          >
+            <Route
+              path="/"
+              element={<SplashScreen />}
+            />
 
-          <Route
-            path="/home"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/home"
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/login"
-            element={
-              <GuestRoute>
-                <Login />
-              </GuestRoute>
-            }
-          />
-          <Route
-            path="/registration"
-            element={<RegisterForm />}
-          />
-          <Route
-            path="*"
-            element={<NotFound />}
-          />
-        </Routes>
-      </AnimatePresence>
-    </MainLayout>
+            <Route
+              path="/login"
+              element={
+                <GuestRoute>
+                  <Login />
+                </GuestRoute>
+              }
+            />
+            <Route
+              path="/registration"
+              element={<RegisterForm />}
+            />
+            <Route
+              path="*"
+              element={<NotFound />}
+            />
+          </Routes>
+        </AnimatePresence>
+      </MainLayout>
+    </QueryClientProvider>
   );
 }
 
