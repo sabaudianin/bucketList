@@ -14,7 +14,7 @@ export const MainLayout = ({ children }: { children: ReactNode }) => {
       </main>
       <footer className="">
         <Footer />
-      </footer>{" "}
+      </footer>
     </div>
   );
 };

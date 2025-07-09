@@ -19,7 +19,7 @@ import { useUser } from "./hooks/user/useUser/useUser.ts";
 function App() {
   const location = useLocation();
   useAuthSession();
-  console.log(import.meta.env.VITE_SUPABASE_URL);
+  // console.log(import.meta.env.VITE_SUPABASE_URL);
   const { isLoading } = useUser();
 
   if (isLoading) return <PageLoader />;

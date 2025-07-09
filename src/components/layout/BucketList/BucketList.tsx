@@ -1,56 +1,59 @@
 import { useState } from "react";
+import { useBucketList } from "../../../hooks/useBucketList/useBucketList";
 
 export const BucketList = () => {
-  type BucketItem = {
-    completed: boolean;
-    id: number;
-    title: string;
-  };
-  const items: Array<BucketItem> = [{ id: 1, title: "No1", completed: true }];
-  //move to dir
-
+  const { items, loading, addItem, toggleComplete } = useBucketList();
   const [newItem, setNewItem] = useState("");
+
   const handleAdd = () => {
-    console.log(newItem);
-  };
-  const toggleComplete = (id: number, completed: boolean) => {
-    console.log(id, completed);
+    if (newItem.trim()) {
+      addItem(newItem.trim());
+      setNewItem("");
+    }
   };
 
   return (
-    <div>
-      <div>
-        <h2> 🎯 Bucket list:</h2>
-        <div>
-          <input
-            type="text"
-            value={newItem}
-            onChange={(e) => setNewItem(e.target.value)}
-            placeholder="Add new goal... 🎯"
-            className="text-green-500"
-          />
-          <button
-            onClick={handleAdd}
-            className=""
-          ></button>
-        </div>
+    <div className="w-full max-w-xl space-y-4 p-2 text-center">
+      <h2 className="text-2xl font-bold ">🎯 My Bucket List</h2>
+
+      <div className="flex gap-1 p-2">
+        <input
+          type="text"
+          value={newItem}
+          onChange={(e) => setNewItem(e.target.value)}
+          placeholder="Add a new goal..."
+          className="flex-1  border rounded p-2"
+        />
+        <button
+          onClick={handleAdd}
+          className="px-4 py-2 bg-green-600 text-white rounded"
+        >
+          ➕ Add
+        </button>
       </div>
-      <ul>
-        {items.map((item) => (
-          <li key={item.id}>
-            {" "}
-            <span
-              className={item.completed ? "line-through text-gray-400" : ""}
+
+      <ul className="space-y-2">
+        {items.length === 0 ? (
+          <span>Add your first thing to do...</span>
+        ) : (
+          items.map((item) => (
+            <li
+              key={item.id}
+              className="flex justify-between items-center p-2 border rounded"
             >
-              {item.title}
-            </span>
-            <input
-              type="checkbox"
-              checked={item.completed}
-              onChange={(e) => toggleComplete(item.id, e.target.checked)}
-            />
-          </li>
-        ))}
+              <span
+                className={item.completed ? "line-through text-gray-400" : ""}
+              >
+                {item.title}
+              </span>
+              <input
+                type="checkbox"
+                checked={item.completed}
+                onChange={(e) => toggleComplete(item.id, e.target.checked)}
+              />
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );
