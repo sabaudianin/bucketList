@@ -2,13 +2,40 @@ import { useState } from "react";
 import { useBucketList } from "../../../hooks/useBucketList/useBucketList";
 
 export const BucketList = () => {
-  const { items, loading, addItem, toggleCompleted } = useBucketList();
+  const {
+    items,
+    loading,
+    addItem,
+    toggleCompleted,
+    error,
+    deleteItem,
+    editItem,
+  } = useBucketList();
+
   const [newItem, setNewItem] = useState("");
+
+  const [editItemState, setEditItemState] = useState<{
+    id: string | null;
+    title: string;
+  }>({ id: null, title: "" });
+
+  const [editMode, setEditMode] = useState(false);
 
   const handleAdd = () => {
     if (newItem.trim()) {
       addItem(newItem.trim());
       setNewItem("");
+    }
+  };
+
+  const handleEdit = (id: string, title: string) => {
+    setEditItemState({ id, title });
+  };
+
+  const handleEditSubmit = () => {
+    if (editItemState.id && editItemState.title?.trim()) {
+      editItem({ id: editItemState.id, title: editItemState.title });
+      setEditItemState({ id: null, title: "" });
     }
   };
 
@@ -31,6 +58,18 @@ export const BucketList = () => {
           ➕ Add
         </button>
       </div>
+      <div>
+        <button
+          onClick={() => setEditMode((prev) => !prev)}
+          className={
+            editMode
+              ? "px-4 py-2 bg-red-700 text-black rounded font-bold"
+              : "bg-green-700 px-4 py-2 text-white rounded font-bold"
+          }
+        >
+          {editMode ? "❌ Cancel Edit List" : "✅ Enter Edit"}
+        </button>
+      </div>
       {loading ? (
         <p>Loading bucket list...</p>
       ) : (
@@ -43,16 +82,50 @@ export const BucketList = () => {
                 key={item.id}
                 className="flex justify-between items-center p-2 "
               >
-                <span
-                  className={item.completed ? "line-through text-gray-400" : ""}
-                >
-                  {item.title}
-                </span>
+                {editItemState.id === item.id ? (
+                  <input
+                    type="text"
+                    value={editItemState.title}
+                    onChange={(e) =>
+                      setEditItemState({
+                        ...editItemState,
+                        title: e.target.value,
+                      })
+                    }
+                    className=""
+                  />
+                ) : (
+                  <span
+                    className={
+                      item.completed ? "line-through text-gray-400" : ""
+                    }
+                  >
+                    {item.title}
+                  </span>
+                )}
                 <input
                   type="checkbox"
                   checked={item.completed}
-                  onChange={(e) => toggleCompleted(item.id, e.target.checked)}
+                  onChange={(e) =>
+                    toggleCompleted({
+                      id: item.id,
+                      completed: e.target.checked,
+                    })
+                  }
+                  className="rounded font-bold"
                 />
+
+                {editMode && editItemState.id !== item.id && (
+                  <div>
+                    <button onClick={() => handleEdit(item.id, item.title)}>
+                      Edit
+                    </button>
+                    <button onClick={() => deleteItem(item.id)}>Delete</button>
+                  </div>
+                )}
+                {editItemState.id === item.id && (
+                  <button onClick={handleEditSubmit}>Save</button>
+                )}
               </li>
             ))
           )}
