@@ -2,20 +2,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "../../lib/supabaseClient";
 import { useUser } from "../user/useUser/useUser";
-
-export type BucketItem = {
-  id: string;
-  title: string;
-  completed: boolean;
-  created_at: string;
-};
+import type { BucketItem } from "../../types/bucket";
 
 export const useBucketList = () => {
   const { user } = useUser();
-
   const queryClient = useQueryClient();
 
-  const fetchBucketList = async (userId: string) => {
+  const fetchBucketList = async (userId: string): Promise<BucketItem[]> => {
     const { data, error } = await supabase
       .from("bucketList")
       .select("*")
@@ -28,15 +21,18 @@ export const useBucketList = () => {
 
   const {
     data: items = [],
-    isPending,
+    isLoading,
     isError,
-
     refetch,
   } = useQuery({
     queryKey: ["bucketList", user?.id],
     queryFn: () => fetchBucketList(user!.id),
     enabled: !!user?.id,
   });
+
+  const invalidate = () => {
+    queryClient.invalidateQueries({ queryKey: ["bucketList", user?.id] });
+  };
 
   const addItem = useMutation({
     mutationFn: async (title: string) => {
@@ -45,11 +41,9 @@ export const useBucketList = () => {
         .insert([{ title, user_id: user?.id }]);
       if (error) throw new Error(error.message);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["bucketList", user?.id] });
-    },
-    onError: (error) => {
-      toast.error(error.message);
+    onSuccess: invalidate,
+    onError: (errorTanStack: Error) => {
+      toast.error(errorTanStack.message);
     },
   });
 
@@ -67,11 +61,9 @@ export const useBucketList = () => {
         .eq("id", id);
       if (error) throw new Error(error.message);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["bucketList", user?.id] });
-    },
-    onError: (error) => {
-      toast.error(error.message);
+    onSuccess: invalidate,
+    onError: (errorTanStack: Error) => {
+      toast.error(errorTanStack.message);
     },
   });
 
@@ -80,11 +72,9 @@ export const useBucketList = () => {
       const { error } = await supabase.from("bucketList").delete().eq("id", id);
       if (error) throw new Error(error.message);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["bucketList", user?.id] });
-    },
-    onError: (error) => {
-      toast.error(error.message);
+    onSuccess: invalidate,
+    onError: (errorTanStack) => {
+      toast.error(errorTanStack.message);
     },
   });
 
@@ -96,22 +86,21 @@ export const useBucketList = () => {
         .eq("id", id);
       if (error) throw new Error(error.message);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["bucketList", user?.id] });
-    },
-    onError: (error) => {
-      toast.error(error.message);
+    onSuccess: invalidate,
+    onError: (errorTanStack) => {
+      toast.error(errorTanStack.message);
     },
   });
 
   return {
     items,
-    loading: isPending,
-    error: isError,
+    isLoading,
+    isError,
     refetch,
     addItem: addItem.mutate,
-    toggleCompleted: toggleCompleted.mutate,
+    toggleCompleted: (id: string, completed: boolean) =>
+      toggleCompleted.mutate({ id, completed }),
     deleteItem: deleteItem.mutate,
-    editItem: editItem.mutate,
+    editItem: (id: string, title: string) => editItem.mutate({ id, title }),
   };
 };
