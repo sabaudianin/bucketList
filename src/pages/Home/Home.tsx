@@ -1,5 +1,5 @@
 import PageTransition from "../../components/PageTransition/PageTransition";
-import { BucketList } from "../../components/layout/BucketList/BucketList";
+import { BucketList } from "../../components/BucketList/BucketList";
 
 export default function Home() {
   return (
