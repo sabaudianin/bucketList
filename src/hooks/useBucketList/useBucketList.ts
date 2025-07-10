@@ -75,6 +75,35 @@ export const useBucketList = () => {
     },
   });
 
+  const deleteItem = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("bucketList").delete().eq("id", id);
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["bucketList", user?.id] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const editItem = useMutation({
+    mutationFn: async ({ id, title }: { id: string; title: string }) => {
+      const { error } = await supabase
+        .from("bucketList")
+        .update({ title })
+        .eq("id", id);
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["bucketList", user?.id] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   return {
     items,
     loading: isPending,
@@ -82,5 +111,7 @@ export const useBucketList = () => {
     refetch,
     addItem: addItem.mutate,
     toggleCompleted: toggleCompleted.mutate,
+    deleteItem: deleteItem.mutate,
+    editItem: editItem.mutate,
   };
 };
