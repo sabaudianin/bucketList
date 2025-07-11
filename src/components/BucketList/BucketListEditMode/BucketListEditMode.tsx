@@ -10,13 +10,10 @@ export const BucketListEditMode: FC<Props> = ({ editMode, toggleEditMode }) => (
   <div>
     <button
       onClick={toggleEditMode}
-      className={
-        editMode
-          ? "px-4 py-2 bg-red-700 text-black rounded font-bold"
-          : "bg-green-700 px-4 py-2 text-white rounded font-bold"
-      }
+      className={`px-4 py-2  rounded font-bold
+        ${editMode ? " bg-red-700 text-black" : "bg-green-700 text-white "}`}
     >
-      {editMode ? "❌ Cancel Edit" : "✅ Enter Edit"}
+      {editMode ? "❌ Close Edit" : "✅ Enter Edit"}
     </button>
   </div>
 );
