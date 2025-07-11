@@ -15,7 +15,7 @@ export const InputButton: FC<ButtonProps> = ({
   return (
     <button
       className={clsx(
-        "w-full py-2  text-white rounded hover:font-bold  disabled:opacity-50 transition",
+        "w-full text-white rounded hover:font-bold  disabled:opacity-50 transition",
         className
       )}
       disabled={disabled || loading}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useBucketList } from "../../hooks/useBucketList/useBucketList";
 import { BucketListForm } from "./BucketListForm/BucketListForm";
 import { BucketListItem } from "./BucketListItem/BucketListItem";
@@ -22,7 +22,7 @@ export const BucketList = () => {
     title: string;
   }>({ id: null, title: "" });
 
-  const [editMode, setEditMode] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const startEdit = (id: string, title: string) =>
     setEditItemState({ id, title });
@@ -33,6 +33,12 @@ export const BucketList = () => {
       setEditItemState({ id: null, title: "" });
     }
   };
+
+  useEffect(() => {
+    if (!isEditMode) {
+      setEditItemState({ id: null, title: "" });
+    }
+  }, [isEditMode]);
 
   if (isLoading) return <p>⏳ Loading...</p>;
   if (isError) return <p className="text-red-500">❌ Error loading list</p>;
@@ -49,8 +55,8 @@ export const BucketList = () => {
       />
 
       <BucketListEditMode
-        editMode={editMode}
-        toggleEditMode={() => setEditMode((prev) => !prev)}
+        editMode={isEditMode}
+        toggleEditMode={() => setIsEditMode((prev) => !prev)}
       />
       <ul className="space-y-2">
         {items.length === 0 && <span> ADD your first thing to do ...</span>}
@@ -58,7 +64,7 @@ export const BucketList = () => {
           <BucketListItem
             key={item.id}
             item={item}
-            editMode={editMode}
+            editMode={isEditMode}
             isEditing={editItemState.id === item.id}
             editTitle={editItemState.title}
             onToggle={toggleCompleted}

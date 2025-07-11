@@ -10,7 +10,7 @@ type Props = {
   onToggle: (id: string, completed: boolean) => void;
   onEditStart: (id: string, title: string) => void;
   onDelete: (id: string) => void;
-  onChangeTitle: (v: string) => void;
+  onChangeTitle: (title: string) => void;
   onEditSubmit: () => void;
 };
 
@@ -26,13 +26,13 @@ export const BucketListItem: FC<Props> = ({
   onEditSubmit,
 }) => {
   return (
-    <li className="flex justify-between items-center p-2 border rounded">
+    <li className="flex justify-between items-center px-2 rounded">
       {isEditing ? (
         <input
           type="text"
           value={editTitle}
           onChange={(e) => onChangeTitle(e.target.value)}
-          className="flex-1 border rounded p-1 mr-2"
+          className="flex-1 border rounded p-2 mr-2"
         />
       ) : (
         <span className={item.completed ? "line-through text-gray-400" : ""}>
@@ -43,14 +43,22 @@ export const BucketListItem: FC<Props> = ({
         type="checkbox"
         checked={item.completed}
         onChange={(e) => onToggle(item.id, e.target.checked)}
-        className="rounded font-bold ml-2"
+        className={editMode ? "hidden" : "rounded font-bold ml-2"}
       />
       {editMode && !isEditing && (
         <div className="ml-2 flex gap-2">
-          <button onClick={() => onEditStart(item.id, item.title)}>
+          <button
+            onClick={() => onEditStart(item.id, item.title)}
+            className="bg-blue-200 rounded px-1 text-black font-semibold"
+          >
             ✏️Edit
           </button>
-          <button onClick={() => onDelete(item.id)}>🗑️ Delete</button>
+          <button
+            onClick={() => onDelete(item.id)}
+            className="bg-red-200 text-black font-semibold px-1"
+          >
+            🗑️Delete
+          </button>
         </div>
       )}
       {isEditing && (
