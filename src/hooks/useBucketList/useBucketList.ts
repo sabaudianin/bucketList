@@ -41,7 +41,10 @@ export const useBucketList = () => {
         .insert([{ title, user_id: user?.id }]);
       if (error) throw new Error(error.message);
     },
-    onSuccess: invalidate,
+    onSuccess: () => {
+      invalidate();
+      toast.success("✅ Item Added to List");
+    },
     onError: (errorTanStack: Error) => {
       toast.error(errorTanStack.message);
     },
@@ -72,7 +75,10 @@ export const useBucketList = () => {
       const { error } = await supabase.from("bucketList").delete().eq("id", id);
       if (error) throw new Error(error.message);
     },
-    onSuccess: invalidate,
+    onSuccess: () => {
+      invalidate();
+      toast.success("✅ Item Deleted");
+    },
     onError: (errorTanStack) => {
       toast.error(errorTanStack.message);
     },
@@ -86,7 +92,10 @@ export const useBucketList = () => {
         .eq("id", id);
       if (error) throw new Error(error.message);
     },
-    onSuccess: invalidate,
+    onSuccess: () => {
+      invalidate();
+      toast.success("✅ Item Edited");
+    },
     onError: (errorTanStack) => {
       toast.error(errorTanStack.message);
     },

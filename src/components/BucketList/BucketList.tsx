@@ -15,8 +15,6 @@ export const BucketList = () => {
     editItem,
   } = useBucketList();
 
-  const [newItem, setNewItem] = useState("");
-
   const [editItemState, setEditItemState] = useState<{
     id: string | null;
     title: string;
@@ -46,11 +44,8 @@ export const BucketList = () => {
     <div className="w-full max-w-xl space-y-4 p-2 text-center">
       <h2 className="text-2xl font-bold ">🎯 My Bucket List</h2>
       <BucketListForm
-        value={newItem}
-        onChange={setNewItem}
-        onSubmit={() => {
-          addItem(newItem.trim());
-          setNewItem("");
+        onSubmit={({ title }) => {
+          addItem(title);
         }}
       />
 

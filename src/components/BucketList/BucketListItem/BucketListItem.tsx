@@ -1,6 +1,7 @@
 import React from "react";
 import type { FC } from "react";
 import type { BucketItem } from "../../../types/bucket";
+import { BListItemEditForm } from "../BListItemFormEdit/BListItemFormEdit";
 
 type Props = {
   item: BucketItem;
@@ -28,23 +29,27 @@ export const BucketListItem: FC<Props> = ({
   return (
     <li className="flex justify-between items-center px-2 rounded">
       {isEditing ? (
-        <input
-          type="text"
-          value={editTitle}
-          onChange={(e) => onChangeTitle(e.target.value)}
-          className="flex-1 border rounded p-2 mr-2"
+        <BListItemEditForm
+          defaultTitle={editTitle}
+          onSubmit={(newTitle) => {
+            onChangeTitle(newTitle);
+            onEditSubmit();
+          }}
         />
       ) : (
-        <span className={item.completed ? "line-through text-gray-400" : ""}>
-          {item.title}
-        </span>
+        <>
+          <span className={item.completed ? "line-through text-gray-400" : ""}>
+            {item.title}
+          </span>
+          <input
+            type="checkbox"
+            checked={item.completed}
+            onChange={(e) => onToggle(item.id, e.target.checked)}
+            className={editMode ? "hidden" : "rounded font-bold ml-2"}
+          />
+        </>
       )}
-      <input
-        type="checkbox"
-        checked={item.completed}
-        onChange={(e) => onToggle(item.id, e.target.checked)}
-        className={editMode ? "hidden" : "rounded font-bold ml-2"}
-      />
+
       {editMode && !isEditing && (
         <div className="ml-2 flex gap-2">
           <button
