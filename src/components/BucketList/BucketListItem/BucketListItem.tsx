@@ -1,7 +1,7 @@
 import React from "react";
 import type { FC } from "react";
 import type { BucketItem } from "../../../types/bucket";
-import { BListItemEditForm } from "../BListItemFormEdit/BListItemFormEdit";
+import { BucketListItemEditForm } from "../BucketListItemFormEdit/BucketListItemFormEdit";
 
 type Props = {
   item: BucketItem;
@@ -29,7 +29,7 @@ export const BucketListItem: FC<Props> = ({
   return (
     <li className="flex justify-between items-center px-2 rounded">
       {isEditing ? (
-        <BListItemEditForm
+        <BucketListItemEditForm
           defaultTitle={editTitle}
           onSubmit={(newTitle) => {
             onChangeTitle(newTitle);

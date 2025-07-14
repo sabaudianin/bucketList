@@ -3,17 +3,19 @@ import { toast } from "sonner";
 import { supabase } from "../../lib/supabaseClient";
 import { useUser } from "../user/useUser/useUser";
 import type { BucketItem } from "../../types/bucket";
+import { useBucketListStore } from "../../store/useBucketListStore/useBucketListStore";
 
 export const useBucketList = () => {
   const { user } = useUser();
   const queryClient = useQueryClient();
+  const { sortBy, sortDirection } = useBucketListStore();
 
   const fetchBucketList = async (userId: string): Promise<BucketItem[]> => {
     const { data, error } = await supabase
       .from("bucketList")
       .select("*")
       .eq("user_id", userId)
-      .order("created_at", { ascending: false });
+      .order(sortBy, { ascending: sortDirection === "asc" });
 
     if (error) throw new Error(error.message);
     return data;
