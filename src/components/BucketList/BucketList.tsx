@@ -3,6 +3,7 @@ import { useBucketList } from "../../hooks/useBucketList/useBucketList";
 import { BucketListForm } from "./BucketListForm/BucketListForm";
 import { BucketListItem } from "./BucketListItem/BucketListItem";
 import { BucketListEditMode } from "./BucketListEditMode/BucketListEditMode";
+import { BucketListSortOptions } from "./BucketListSortOptions/BucketListSortOptions";
 
 export const BucketList = () => {
   const {
@@ -54,6 +55,7 @@ export const BucketList = () => {
         toggleEditMode={() => setIsEditMode((prev) => !prev)}
       />
       <ul className="space-y-2">
+        <BucketListSortOptions />
         {items.length === 0 && <span> ADD your first thing to do ...</span>}
         {items.map((item) => (
           <BucketListItem

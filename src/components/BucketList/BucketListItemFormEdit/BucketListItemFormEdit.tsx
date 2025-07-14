@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { BucketItemFormData } from "../../../lib/validations/BucketListSchema/bucketListSchema";
@@ -9,7 +9,10 @@ type Props = {
   onSubmit: (title: string) => void;
 };
 
-export const BListItemEditForm: FC<Props> = ({ defaultTitle, onSubmit }) => {
+export const BucketListItemEditForm: FC<Props> = ({
+  defaultTitle,
+  onSubmit,
+}) => {
   const {
     register,
     handleSubmit,
