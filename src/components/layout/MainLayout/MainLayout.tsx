@@ -6,11 +6,11 @@ import { Container } from "../Container/Container";
 
 export const MainLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex flex-col bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-300">
+    <div className="flex flex-col bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-300 ">
       <header className="sticky top-0 z-50 bg-inherit shadow">
         <Navbar />
       </header>
-      <main className="flex-1 flex justify-center items-center min-h-screen">
+      <main className="min-h-screen ">
         <Container className="">{children}</Container>
       </main>
       <footer className="">

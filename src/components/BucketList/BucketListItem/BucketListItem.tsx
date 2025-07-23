@@ -66,14 +66,6 @@ export const BucketListItem: FC<Props> = ({
           </button>
         </div>
       )}
-      {isEditing && (
-        <button
-          onClick={onEditSubmit}
-          className="ml-2 text-blue-600"
-        >
-          💾 Save
-        </button>
-      )}
     </li>
   );
 };
