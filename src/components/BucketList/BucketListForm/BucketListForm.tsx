@@ -27,9 +27,9 @@ export const BucketListForm: FC<Props> = ({ onSubmit }) => {
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
-      className="flex gap-1 p-2 flex-col sm:flex-row items-stretch"
+      className="flex flex-col sm:flex-row items-stretch justify-center gap-1 p-2"
     >
-      <div className="flex gap-1 p-2">
+      <div className="flex gap-1 p-2 w-full">
         <input
           type="text"
           {...register("title")}
