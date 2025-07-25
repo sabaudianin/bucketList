@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { BucketItemFormData } from "../../../lib/validations/BucketListSchema/bucketListSchema";
@@ -20,10 +20,13 @@ export const BucketListForm: FC<Props> = ({ onSubmit }) => {
     mode: "onChange",
   });
 
-  const handleFormSubmit = (data: BucketItemFormData) => {
-    onSubmit(data);
-    reset();
-  };
+  const handleFormSubmit = useCallback(
+    (data: BucketItemFormData) => {
+      onSubmit(data);
+      reset();
+    },
+    [onSubmit, reset]
+  );
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}

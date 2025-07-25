@@ -28,7 +28,7 @@ export const BucketList = () => {
 
   const submitEdit = () => {
     if (editItemState.id && editItemState.title.trim()) {
-      editItem(editItemState.id, editItemState.title.trim());
+      editItem({ id: editItemState.id, title: editItemState.title.trim() });
       setEditItemState({ id: null, title: "" });
     }
   };
