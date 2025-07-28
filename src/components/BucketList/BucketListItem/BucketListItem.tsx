@@ -7,33 +7,29 @@ type Props = {
   item: BucketItem;
   editMode: boolean;
   isEditing: boolean;
-  editTitle: string;
+
   onToggle: (id: string, completed: boolean) => void;
   onEditStart: (id: string, title: string) => void;
   onDelete: (id: string) => void;
-  onChangeTitle: (title: string) => void;
-  onEditSubmit: () => void;
+  onEditSubmit: (newTitle: string) => void;
 };
 
 export const BucketListItem: FC<Props> = ({
   item,
   editMode,
   isEditing,
-  editTitle,
   onToggle,
   onEditStart,
   onDelete,
-  onChangeTitle,
   onEditSubmit,
 }) => {
   return (
     <li className="flex justify-between items-center px-2 rounded">
       {isEditing ? (
         <BucketListItemEditForm
-          defaultTitle={editTitle}
+          defaultTitle={item.title}
           onSubmit={(newTitle) => {
-            onChangeTitle(newTitle);
-            onEditSubmit();
+            onEditSubmit(newTitle);
           }}
         />
       ) : (
@@ -45,7 +41,9 @@ export const BucketListItem: FC<Props> = ({
             type="checkbox"
             checked={item.completed}
             onChange={(e) => onToggle(item.id, e.target.checked)}
-            className={editMode ? "hidden" : "rounded font-bold ml-2"}
+            className={`ml-4 w-5 h-5 accent-green-600 rounded border-gray-300 focus:ring-green-500 ${
+              editMode ? "hidden" : ""
+            }`}
           />
         </>
       )}

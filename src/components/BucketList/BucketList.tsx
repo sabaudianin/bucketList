@@ -16,26 +16,22 @@ export const BucketList = () => {
     editItem,
   } = useBucketList();
 
-  const [editItemState, setEditItemState] = useState<{
-    id: string | null;
-    title: string;
-  }>({ id: null, title: "" });
+  const [editItemId, setEditItemId] = useState<string | null>(null);
 
   const [isEditMode, setIsEditMode] = useState(false);
 
-  const startEdit = (id: string, title: string) =>
-    setEditItemState({ id, title });
+  const startEdit = (id: string) => setEditItemId(id);
 
-  const submitEdit = () => {
-    if (editItemState.id && editItemState.title.trim()) {
-      editItem({ id: editItemState.id, title: editItemState.title.trim() });
-      setEditItemState({ id: null, title: "" });
+  const submitEdit = (newTitle: string) => {
+    if (editItemId && newTitle.trim()) {
+      editItem({ id: editItemId, title: newTitle.trim() });
+      setEditItemId(null);
     }
   };
 
   useEffect(() => {
     if (!isEditMode) {
-      setEditItemState({ id: null, title: "" });
+      setEditItemId(null);
     }
   }, [isEditMode]);
 
@@ -62,14 +58,10 @@ export const BucketList = () => {
             key={item.id}
             item={item}
             editMode={isEditMode}
-            isEditing={editItemState.id === item.id}
-            editTitle={editItemState.title}
-            onToggle={toggleCompleted}
+            isEditing={editItemId === item.id}
+            onToggle={(id, completed) => toggleCompleted({ id, completed })}
             onEditStart={startEdit}
             onDelete={deleteItem}
-            onChangeTitle={(title) =>
-              setEditItemState((state) => ({ ...state, title: title }))
-            }
             onEditSubmit={submitEdit}
           />
         ))}
