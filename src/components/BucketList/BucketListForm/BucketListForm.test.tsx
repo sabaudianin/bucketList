@@ -27,7 +27,7 @@ describe("<BucketListForm", () => {
     expect(await screen.findByText(/Title is required/i)).toBeInTheDocument();
   });
 
-  it("submit button is disabled if input is empty invalid", () => {
+  it("submit button is disabled if input is empty ", () => {
     setup();
     const btn = screen.getByRole("button", { name: /add/i });
     expect(btn).toBeDisabled();
